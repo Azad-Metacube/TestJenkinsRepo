@@ -1,0 +1,4 @@
+<apex:page standardController="Contact">
+<apex:toolbar >{!contact.RecordType.Name}</apex:toolbar>
+<apex:detail />
+</apex:page>

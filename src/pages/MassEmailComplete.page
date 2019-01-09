@@ -1,0 +1,15 @@
+<apex:page >
+    <apex:sectionHeader title="Mass Email" subtitle="Complete"/>
+    <apex:outputLabel value="Step 4. Your emails have been submitted for processing."><b>Step 4 of 4 </b></apex:outputLabel>
+    <apex:form >
+    
+        <apex:pageBlock helpTitle="Help" helpUrl="https://ap1.salesforce.com/apexpages/apexcomponents.apexp"> 
+                <apex:pageBlockSection columns="1" >
+                    <apex:outputLabel value="Congratulations! You have finished with the Mass Email wizard">    
+                        <apex:outputLink value="https://c.ap1.visual.force.com/apex/MassEmailAccountPage" style="margin-left:900px">Finish</apex:outputLink>
+                    </apex:outputLabel>
+                </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+    </apex:form>
+</apex:page>

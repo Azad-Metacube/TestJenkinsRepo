@@ -1,0 +1,58 @@
+<apex:page standardController="Account" extensions="AccountController" docType="html-5.0">
+    <apex:pageMessages id="errorMsg"></apex:pageMessages>
+    <apex:form >
+        <apex:sectionHeader title="Account Edit" subtitle="New Account"/>
+        <apex:pageBlock title="Account Edit" mode="edit">
+        
+            <apex:pageBlockButtons >
+                   <apex:commandButton value="Save" action="{!saveAccount}" reRender="errorMsg"/>
+                   <apex:commandButton value="Save & New" action="{!saveAndNew}" reRender="errorMsg"/>
+                   <apex:commandButton value="Cancel" action="{!CancelAccount}" immediate="true"/>
+            </apex:pageBlockButtons>
+                
+            <apex:pageBlockSection title="Account Information" columns="2" id="accountInfo">
+                <apex:inputfield value="{!Account.OwnerId}"/>
+                <apex:inputfield value="{!Account.Rating}"/>
+                <apex:inputfield value="{!Account.Name}"/>
+                <apex:inputfield value="{!Account.Phone}"/>
+                <apex:inputfield value="{!Account.ParentId}"/>
+                <apex:inputfield value="{!Account.Fax}"/>
+                <apex:inputfield value="{!Account.AccountNumber}"/>
+                <apex:inputfield value="{!Account.Website}"/>
+                <apex:inputfield value="{!Account.Site}"/>
+                <apex:inputfield value="{!Account.TickerSymbol}"/>
+                <apex:inputfield value="{!Account.Type}"/>
+                <apex:inputfield value="{!Account.Ownership}"/>
+                <apex:inputfield value="{!Account.Industry}"/>
+                <apex:inputfield value="{!Account.NumberOfEmployees}"/>
+                <apex:inputfield value="{!Account.AnnualRevenue}"/>
+                <apex:inputfield value="{!Account.Sic}"/>
+                <apex:inputfield value="{!Account.ContactIDs__c}"/>
+            </apex:pageBlockSection>
+                
+            <apex:pageBlockSection title="Address Information" id="addressInfo">
+                <apex:inputfield value="{!Account.BillingStreet}"/>
+                <apex:inputfield value="{!Account.ShippingStreet}"/>
+                <apex:inputfield value="{!Account.BillingCity}"/>
+                <apex:inputfield value="{!Account.ShippingCity}"/>
+                <apex:inputfield value="{!Account.BillingState}"/>
+                <apex:inputfield value="{!Account.ShippingState}"/>
+                <apex:inputfield value="{!Account.BillingPostalCode}"/>
+                <apex:inputfield value="{!Account.ShippingPostalCode }"/>
+                <apex:inputfield value="{!Account.BillingCountry}"/>
+                <apex:inputfield value="{!Account.ShippingCountry}"/>
+                <apex:inputfield value="{!Account.CustomerPriority__c}"/>
+                <apex:inputfield value="{!Account.SLA__c}"/>
+                <apex:inputfield value="{!Account.SLAExpirationDate__c}"/>
+                <apex:inputfield value="{!Account.SLASerialNumber__c}"/>
+                <apex:inputfield value="{!Account.NumberofLocations__c}"/>
+                <apex:inputfield value="{!Account.UpsellOpportunity__c}"/>
+                <apex:inputfield value="{!Account.Active__c}"/> 
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Description Information" id="descriptionInfo">
+                <apex:inputfield value="{!Account.Description}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>     
+</apex:page>

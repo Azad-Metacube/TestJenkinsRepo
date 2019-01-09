@@ -1,0 +1,12 @@
+<apex:page standardController="Class__c" extensions="NewStudentCustomController">
+    <apex:sectionHeader title="Class" subtitle="{!className}"/>
+    <apex:pageMessages id="msg"></apex:pageMessages>
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection >
+                <apex:inputText value="{!studentName}" label="Please Enter Student name"/>
+                <apex:commandButton value="Submit" action="{!StudentRecordSaved}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock> 
+    </apex:form>
+</apex:page>

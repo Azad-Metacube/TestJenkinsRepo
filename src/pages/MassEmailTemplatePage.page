@@ -1,0 +1,57 @@
+<apex:page standardController="Contact" extensions="MassEmailAccountPageController">
+    <apex:sectionHeader title="Mass Email" subtitle="Template Selection"/>
+    <apex:outputLabel value="Step 2. Select an email template"><b>Step 2 of 4 </b></apex:outputLabel>
+    <apex:pageMessages id="msg"/>
+    <script>
+        function templatePreviewInNewWindow(eTemplateId,eTemplateName){
+            var url='/'+eTemplateId+'?setupid='+eTemplateName;
+            newWin=window.open(url, 'Popup','height=500,width=600,left=100,top=100,resizable=no,scrollbars=yes,toolbar=no,status=no');
+            if (window.focus){
+                newWin.focus();
+            } 
+            return false;
+        }
+                       
+        function changeValue(input, textid) {
+            document.getElementById(textid).value = input.value;
+        }
+    </script>
+    
+    <apex:form >
+        
+        <apex:pageBlock title="FilterSection" helpTitle="help" helpUrl="https://ap1.salesforce.com/apexpages/apexcomponents.apexp" id="FilterBlock">
+                <apex:outputLabel value="Template">
+                    <apex:inputText value="{!filterTemplateInput}"/>
+                    <apex:commandButton value="filter" action="{!getTemplateList}" reRender="FilterResultPanel"/>
+                </apex:outputLabel>    
+        </apex:pageBlock>
+        
+        <apex:outputPanel id="FilterResultPanel" >
+            <apex:pageBlock id="FilterResultBlock" rendered="{!wrapperTemplateClassList.size > 0}">
+                <apex:pageBlockButtons >
+                    <apex:commandButton value="Previous" action="{!redirectpreviousPage}"/>
+                    <apex:commandButton value="Next" action="{!selectedTemplate}"/>
+                    <apex:commandLink value="Cancel" action="{!redirectCancel}"/>
+                </apex:pageBlockButtons>
+                <apex:pageBlockTable id="FilterResultTable" value="{!wrapperTemplateClassList}" var="wrapTemplate"> 
+                    <apex:column headerValue="Preview">
+                        <apex:commandLink value="preview" onclick="templatePreviewInNewWindow('{!wrapTemplate.temp.Id}','{!wrapTemplate.temp.Name}')"/>
+                    </apex:column>
+                    <apex:column rendered="{!wrapTemplate.isChecked}" >
+                        <input type="radio" name="selectedTemplate" value="{!wrapTemplate.temp.Id}" onclick="changeValue(this,'{!$Component.RadioButtonValue}');" checked="true"/>
+                    </apex:column>
+                    <apex:column rendered="{!NOT(wrapTemplate.isChecked)}" >
+                        <input type="radio" name="selectedTemplate" value="{!wrapTemplate.temp.Id}" onclick="changeValue(this,'{!$Component.RadioButtonValue}');"  />
+                    </apex:column>
+                    <apex:column value="{!wrapTemplate.temp.Name}" />
+                    <apex:column headerValue="Template Type">
+                        <apex:outputfield value="{!wrapTemplate.temp.TemplateType}"/>
+                    </apex:column>
+                    <apex:column value="{!wrapTemplate.temp.Description }"/>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:outputPanel>
+        
+        <apex:inputHidden value="{!selectedTemplateId}" id="RadioButtonValue" />
+    </apex:form> 
+</apex:page>

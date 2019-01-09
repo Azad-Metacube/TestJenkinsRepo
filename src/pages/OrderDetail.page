@@ -1,0 +1,27 @@
+<apex:page standardController="Purchase_Order__c" extensions="OrderDetailController" action="{!updateStatus}">
+    <style>
+    .editLink{
+        text-decoration:none;
+    }
+    .editLink:hover{
+        text-decoration:underline;
+    }
+    </style>
+    <apex:pageMessages id="msg"/>
+    <apex:form >
+        <apex:sectionHeader title="Order" subtitle="Item Ordered"/>
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1"> 
+                <apex:pageBlockTable value="{!orderedLineItemList}" var="item" >
+                    <apex:column value="{!item.Product_ID__r.Product_Name__c}"/>
+                    <apex:column value="{!item.Quantity__c}"/>
+                    <apex:column value="{!item.Unit_Price__c}"/>
+                    <apex:column value="{!item.TotalItemPrice__c}" headerValue="Total Price"/>
+                </apex:pageBlockTable>
+                <apex:outputLabel ><b>Order :Total Price -</b> {!totalPrice}</apex:outputLabel>
+            </apex:pageBlockSection> 
+            <apex:commandLink action="{!newOrderRedirect}" styleClass="editLink" style="color:#068ED2;margin-left:700px">
+            <i><b>New Order </b></i></apex:commandLink>     
+        </apex:pageBlock>        
+    </apex:form>
+</apex:page>

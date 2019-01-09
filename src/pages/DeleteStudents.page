@@ -1,0 +1,23 @@
+<apex:page StandardController="Student__c" extensions="DeleteStudentsController" recordSetVar="htf" sidebar="false">
+    <apex:pageMessages id="msg" rendered="{!selected == null}"/>
+    <apex:form rendered="{!(selected != null)}">
+        <apex:sectionHeader title="Selected List View" subtitle="Students"/>
+        <apex:pageBlock >
+        
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Continue" action="{!Deleterecords}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection title="Student Info" columns="1">
+                <apex:pageBlockTable rendered="{!(selected != null)}" value="{!selected}" var="SelectedStudent" >
+                    <apex:column value="{!SelectedStudent.Name}"/>  
+                    <apex:column value="{!SelectedStudent.First_Name__c}"/>
+                    <apex:column value="{!SelectedStudent.Last_Name__c}"/>
+                    <apex:column value="{!SelectedStudent.Class__r.Name}"/>   
+                </apex:pageBlockTable>        
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

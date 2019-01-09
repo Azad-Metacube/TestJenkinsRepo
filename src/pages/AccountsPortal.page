@@ -1,0 +1,27 @@
+<apex:page controller="AccountsPortalController" showHeader="false" sidebar="false">
+      
+      <apex:form >
+          <apex:pageblock >    
+             
+              <apex:pageMessages id="errMsg"/>
+              <apex:pageblocktable value="{!accList}" var="acc" > 
+                  <apex:column >
+                      <apex:inputCheckbox value="{!acc.isChecked}" />
+                  </apex:column>
+                  <apex:column value="{!acc.a.Name}" />
+                    
+              </apex:pageblocktable>
+               
+              <apex:commandButton value="Filter" action="{!populateContactList}" reRender="contactPanel, errMsg"/>
+              
+              <apex:outputpanel id="contactPanel">
+                  <apex:outputpanel rendered="{!relatedContactList.size > 0}">
+                      <apex:pageblocktable value="{!relatedContactList}" var="con" > 
+                          <apex:column value="{!con.Name}" />  
+                      </apex:pageblocktable>
+                  </apex:outputpanel>
+              </apex:outputpanel>
+              
+          </apex:pageBlock> 
+      </apex:form>
+</apex:page>

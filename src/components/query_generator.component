@@ -1,0 +1,41 @@
+<apex:component controller="ComponentController">
+
+    <apex:pageMessages rendered="{!(sList.size==0)}"/>
+    <apex:attribute name="soql" type="String" description="soqlQuery" assignTo="{!soqlQuery}"/>
+    <apex:pageBlock id="pb" title="Query Result" rendered="{!(setCon!=null)}">
+        <div style="position: relative;">
+            <apex:outputpanel >
+                <apex:actionstatus id="status">
+                    <apex:facet name="start">
+                        <div class="waitingSearchDiv" id="el_loading" style="background-color:#ff0000;height: 100%;opacity:.9;width:100%;"> 
+                            <div class="waitingHolder" style="top: 74.2px; width: 191px;">
+                                <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                                <span class="waitingDescription">Loading...</span>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+            </apex:outputpanel>
+        </div>
+        <apex:pageBlockTable value="{!sList}" var="s" >
+            <apex:repeat value="{!columnName}" var="c">
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="{!c}" action="{!Sorting}">
+                            <apex:param name="col" value="{!c}" assignTo="{!cName}"/>
+                        </apex:commandLink>                    
+                    </apex:facet>
+                    <apex:outputText value="{!s[c]}">
+                    </apex:outputText>                      
+                </apex:column>    
+            </apex:repeat>    
+        </apex:pageBlockTable>
+        <apex:panelGrid columns="5" >
+            <apex:commandButton status="status" reRender="pb" value="|<" action="{!first}" disabled="{!!hasPrevious}" title="First Page"/>
+            <apex:commandButton status="status" reRender="pb" value="<" action="{!previous}" disabled="{!!hasPrevious}" title="Previous Page"/>
+            <apex:commandButton status="status" reRender="pb" value=">" action="{!next}" disabled="{!!hasNext}" title="Next Page"/>
+            <apex:commandButton status="status" reRender="pb" value=">|" action="{!last}" disabled="{!!hasNext}" title="Last Page"/>
+            <apex:outputText >{!(pageNumber * size)+1-size}-{!IF((pageNumber * size)>noOfRecords, noOfRecords,(pageNumber * size))} of {!noOfRecords}</apex:outputText>
+        </apex:panelGrid>
+    </apex:pageBlock>
+</apex:component>

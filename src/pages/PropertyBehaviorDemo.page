@@ -1,0 +1,10 @@
+<apex:page controller="PropertyBehaviorDemoController">
+    <apex:form >
+            <apex:commandbutton value="populateAccount" action="{!cancel}" reRender="abc"/>
+    </apex:form>
+    <apex:outputPanel id="abc"> 
+            <apex:repeat value="{!Account}" var="a"/> == = ==  {!Account2} 
+            <br/>
+            total calls => {!counter}
+    </apex:outputPanel>
+</apex:page>

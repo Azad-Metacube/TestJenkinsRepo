@@ -1,0 +1,73 @@
+<apex:page standardController="Contact" extensions="MassEmailAccountPageController" docType="html-5.0">
+    <apex:sectionHeader title="Mass Email" subtitle="Confirmation"/>
+    <apex:outputLabel value="Step 3. Review and confirm"><b>Step 3 of 4 </b></apex:outputLabel>
+    <apex:pageMessages id="msg"/>
+    
+    <script>
+        function callMe(eVal){
+            actionMe(eVal);
+            return false;
+        }
+    </script>
+   
+    <apex:form Id="formId">
+         
+        <apex:actionFunction name="actionMe" reRender="msg">
+            <apex:param name="meParam" assignTo="{!confirmationOption}" value=""/>
+        </apex:actionFunction>
+        <apex:pageBlock title="Review and Confirm" mode="edit" Id="pageBlockId">
+            <apex:pageBlockButtons style="text-align:right">
+                    <apex:commandButton value="Previous" action="{!redirectpreviousTemplatePage}"/>
+                    <apex:commandButton value="Send" action="{!scheduleIt}"/>
+                    <apex:commandLink value="Cancel" action="{!redirectCancel}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection title="Processing Options" columns="1"> 
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="Store an Activity for each message" style="width:200"/>
+                     <apex:inputCheckbox value="{!storeAnActivity}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="Use my Signature"/>
+                     <apex:inputCheckbox />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="BCC me on one message"/>
+                     <apex:inputCheckbox value="{!isBCCme}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="Mass Email Name"/>
+                     <apex:inputText value="{!massEmailName}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <!--  
+            <apex:pageBlockSection  columns="1">
+                 
+                <apex:selectRadio layout="pageDirection" value="{!confirmationOption}">
+                    <apex:selectOptions value="{!confirm}"/>
+                </apex:selectRadio>
+                <apex:input type="date" value="{!scheduledOn}" id="scheduleDate" style="margin-left:100px" />
+                <apex:outputLabel value="yy/mm/dd" style="margin-left:100px"/>
+                
+            </apex:pageBlockSection> -->
+             
+            <apex:pageBlockSection title="Delivery Options" id="sectionId" columns="1">
+                <input type="radio" name="Confirm" value="Send Now" onclick="callMe(this.value);" style="margin-left:130px"/>Send Now<br/>
+                <apex:pageBlockSectionItem >
+                    <input type="radio" name="Confirm" value="Schedule" onclick="callMe(this.value);" />Schedule On
+                    <apex:input type="date" value="{!scheduledOn}" id="scheduleDate" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            <!-- 
+            <apex:selectRadio label="test"> 
+                <apex:selectOption title="test1"> 
+                <apex:outputPanel >
+                <apex:input type="date" value="{!scheduledOn}" id="scheduleDate" />
+                <apex:outputLabel value="yy/mm/dd" />
+                </apex:outputPanel>
+            </apex:selectRadio>
+            -->
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

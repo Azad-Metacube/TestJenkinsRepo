@@ -1,0 +1,127 @@
+<apex:page controller="MassEmailAccountPageController" sidebar="false" showheader="False" >
+    <apex:sectionHeader title="Mass Email" subtitle="Recipient Selection"/>
+    <apex:outputLabel value="Step 1. Specify the recipients to include"><b>Step 1 of 4 </b></apex:outputLabel>
+    <apex:pageMessages id="msg" />
+    <script type="text/javascript"> 
+        var newWin=null; 
+        
+        function openLookupPopup()
+        {
+            var nm=document.getElementById('j_id0:j_id30:FilterBlock:targetName').value;
+            var accId=document.getElementById('j_id0:j_id30:FilterBlock:targetId').value;
+            var url="/apex/LookupPopup?accName="+nm+"&accId="+accId;
+            url = url.replace("%", "*");
+            newWin=window.open(url, 'Popup','height=500,width=600,left=100,top=100,resizable=no,scrollbars=yes,toolbar=no,status=no');
+            if (window.focus){
+                newWin.focus();
+            } 
+            return false;
+        } 
+                       
+        function closeLookupPopup()
+        {
+           newWin.close();
+           if (null!=newWin){
+             newWin.close();
+           } 
+        }
+        
+        function selectCheckboxes(cb,cbid)
+            {   
+                var inputElem = document.getElementsByTagName("input");                   
+                for(var i=0; i<inputElem.length; i++)
+                {            
+                     if(inputElem[i].id.indexOf(cbid)!=-1){                                      
+                        inputElem[i].checked = cb.checked;
+                    }
+                }
+            }
+            
+        function checkAll(size){
+            var inputElem = document.getElementsByTagName("input");     
+            var j=0;
+            var headerbox;
+            for(var i=0; i<inputElem.length; i++)
+            {            
+                if(inputElem[i].id.indexOf('inputId')!=-1){
+                    if(inputElem[i].checked){                                             
+                      j++;   
+                    }
+                }
+                if(inputElem[i].id.indexOf('headerInputId')!=-1){
+                    headerbox=inputElem[i];
+                }
+            }
+            if(j==size){
+                headerbox.checked=true;
+            }
+            else{
+                headerbox.checked=false;
+            }  
+                     
+        }  
+        
+        function showOnEdit(){
+            var saveEle= document.getElementById('j_id0:j_id30:FilterResultBlock:j_id38:saveButton');
+            saveEle.style="display:inline;";
+            var bottomSaveEle= document.getElementById('j_id0:j_id30:FilterResultBlock:j_id38:bottom:saveButton');
+            bottomSaveEle.style="display:inline;";
+        }  
+        function hideOnsave(){
+            var saveEle= document.getElementById('j_id0:j_id30:FilterResultBlock:j_id38:saveButton');
+            saveEle.style="display:none";
+            var bottomSaveEle=document.getElementById('j_id0:j_id30:FilterResultBlock:j_id38:bottom:saveButton');
+            bottomSaveEle.style="display:none";
+        }  
+    </script>
+    
+    <apex:form >
+    
+        <apex:actionFunction name="actionMe" action="{!redirectContactDetail}">
+            <apex:param name="meParam" value="" assignTo="{!contactId}"/>
+        </apex:actionFunction>
+        <apex:actionFunction name="actionMe2" >
+            <apex:param name="paramMe2" assignTo="{!filterInput}" value="{!filterInput}"/>
+        </apex:actionFunction>
+        <apex:pageBlock title="FilterSection" helpTitle="help" helpUrl="https://ap1.salesforce.com/apexpages/apexcomponents.apexp" id="FilterBlock">
+            <apex:outputLabel value="Account">
+                <apex:inputHidden value="{!accountId}" id="targetId" />
+                <apex:inputText value="{!filterInput}" id="targetName" />
+                <a href="#" onclick="openLookupPopup(); return false"><img src="{!$Resource.LookUpImage}" width="20" height="20" align="top"/></a><br/><br/>
+                <apex:commandButton value="filter" action="{!getContactList}" oncomplete="hideOnsave();return false;" reRender="FilterResultPanel,msg"/>
+            </apex:outputLabel>    
+        </apex:pageBlock>
+        
+        <apex:outputPanel id="FilterResultPanel" >
+            <apex:pageBlock id="FilterResultBlock" title="Contact Related to Account" rendered="{!wrapperContactClassList.size > 0}">
+             
+                <apex:pageBlockButtons >
+                    <apex:commandButton value="save" action="{!saveEmailIds}" id="saveButton" oncomplete="hideOnsave();return false;" reRender="FilterResultPanel"/>
+                    <apex:commandButton value="next" action="{!selectedContactId}"/>
+                    <apex:commandLink value="cancel" action="{!redirectCancel}"/>
+                </apex:pageBlockButtons>
+                <apex:pageBlockTable id="FilterResultTable" value="{!wrapperContactClassList}" var="cont"> 
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox value="{!headerCheck}" onclick="selectCheckboxes(this,'inputId')" id="headerInputId" />   
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!cont.isChecked}" id="inputId" onclick="checkAll('{!wrapperContactClassList.size}')"/> 
+                    </apex:column>
+                    <apex:column headerValue="Contact Name">
+                        <apex:commandLink value="{!cont.c.Name}" onclick="actionMe('{!cont.c.Id}');return false;"/>
+                    </apex:column>
+                    <apex:column headerValue="Email" onclick="showOnEdit();return false;">
+                        <apex:outputField value="{!cont.c.Email}" >
+                                <apex:inlineEditSupport >                                      
+                                 </apex:inlineEditSupport>
+                        </apex:outputField>              
+                    </apex:column>
+                    <apex:column value="{!cont.c.Phone}"/>
+                    <apex:column value="{!cont.c.Account.Name}"/>
+                    <apex:column value="{!cont.c.Fax}"/>
+                </apex:pageBlockTable>
+                 
+            </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,12 @@
+<apex:page controller="ComponentPageController">
+    <apex:form >
+        <apex:sectionHeader title="Soql Query Runner"/>
+        <apex:outputText value="SOQL Query : " />
+        <apex:inputText size="150" value="{!SoqlString}"/> 
+        <apex:commandButton value="Show Results:" action="{!run}"/><br/>
+        <apex:outputPanel id="grid" rendered="{!(SoqlString!=null)}">
+            <c:query_generator soql="{!SoqlString}">
+            </c:query_generator>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

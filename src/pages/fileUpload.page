@@ -1,0 +1,7 @@
+<apex:page cache="false">
+    <apex:sectionHeader title="Visualforce Example" subtitle="File Upload Example"/>
+    <apex:pageBlock title="Upload a File">
+        <!-- Replace parentId attribute with Id of an object that supports attachments --><br/>
+        <c:fileUpload parentId="a009000000Ta9IY"/>
+    </apex:pageBlock>
+</apex:page>

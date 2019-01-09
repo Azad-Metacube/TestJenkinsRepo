@@ -1,0 +1,8 @@
+<apex:page standardController="Student__c" extensions="ClickNewStudentOpenClass">
+    <script>
+        window.onload=function(){call()}
+    </script>
+    <apex:form >
+        <apex:actionFunction name="call" action="{!callFunction}"/> 
+    </apex:form>    
+</apex:page>

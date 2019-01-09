@@ -1,0 +1,24 @@
+<apex:page standardController="Student__c" extensions="EditStudentInNewWindowController" sidebar="false">
+    <script>
+        function closePopUp(){
+            alert({!flag});
+            if({!flag}==0){
+                parent.window.opener.location.href = "/{!$Request.id}";
+               window.top.close();
+            }
+        }
+    </script>
+    <apex:pageMessages id="msg" />
+    <apex:sectionHeader title="{!Student__c.Name}"/>
+   <apex:form id="form">
+        <apex:pageBlock title="Student Info" >
+            <apex:pageBlockSection columns="1" >
+                <apex:outputLabel value="First name :"><apex:inputText value="{!Student__c.First_Name__c}"/> </apex:outputLabel>
+                <apex:outputLabel value="Last name :"><apex:inputText value="{!Student__c.Last_Name__c}"/> </apex:outputLabel>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom"> 
+                    <apex:commandButton value="save" action="{!saveStudent}" oncomplete="closePopUp();" reRender="form,msg"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,56 @@
+<apex:page Controller="StudentList"  id="thePage"  docType="html-5.0">
+    
+    <apex:pageMessages id="msg"/>
+    <apex:form >    
+        <apex:pageBlock title="Question 1">
+            <apex:inputText value="{!myInput}" id="theInput" />   
+            <apex:commandButton action="{!validateclass}" value="class" rerender="StudentsDetails, msg" status="status"/> 
+            
+            <apex:pageBlockSection >
+                <apex:actionStatus startText="Fetching students..." stopText="" id="status"> </apex:actionStatus>
+            </apex:pageBlockSection>
+            
+            <apex:outputPanel id="StudentsDetails" >
+                <apex:pageBlockTable value="{!studentsList}" var="Student__c" rendered="{!(studentsList.size!=0)}" >
+                    <apex:column value="{!Student__c.First_Name__c}"/>
+                    <apex:column value="{!Student__c.Last_Name__c}"/>
+                </apex:pageBlockTable>
+            </apex:outputPanel>
+        </apex:pageBlock>     
+        
+        <apex:pageBlock title="Question 2">
+            <apex:pageBlockTable value="{!studentMap1}" var="key">
+                <apex:column headerValue="class">
+                    {!key.Name} <!-- display the key Values of map -->
+                </apex:column>
+                <apex:column headerValue="Students">
+                    {!studentMap1[key]} 
+                </apex:column>
+            </apex:pageBlockTable>  
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Question 3">
+            <apex:pageBlockSection >
+                <apex:input id="startDate"  value="{!startDate}" size="12" type="date" />
+                <apex:input id="endDate" value="{!endDate}" size="12" type="date" />
+                <apex:commandButton action="{!calculateWorkingDays}" value="WorkingDays" rerender="WorkingDays"/>
+                 
+                <apex:outputPanel id="WorkingDays" >
+                    <apex:outputText value="{!getWorkingDays}"></apex:outputText>
+                </apex:outputPanel>
+                
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Question 4">
+            <apex:commandButton action="{!getAllObject}" value="getObjects" rerender="getAllObjectDetail"/>
+         
+         <apex:pageBlockSection id="getAllObjectDetail" columns="3" >
+            <apex:repeat value="{!allObjectList }" var="ao">
+                {!ao}
+            </apex:repeat>
+         </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+    </apex:form>  
+</apex:page>

@@ -1,0 +1,29 @@
+<apex:page controller="Pagination">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:actionRegion >          
+                <apex:pageBlockSection >   
+                    <apex:outputLabel value="Billing City"></apex:outputLabel>            
+                    <apex:inputText value="{!filter1}"/>
+                    <apex:outputLabel value="Billing State"></apex:outputLabel>               
+                    <apex:inputText value="{!filter2}"/>  
+                    <apex:outputLabel value="Billing Country"></apex:outputLabel>  
+                    <apex:inputText value="{!filter3}"/>    
+                    <apex:commandButton value="Search" action="{!searchAccounts}"/>
+                </apex:pageBlockSection>
+             </apex:actionRegion> 
+              
+             <apex:pageBlockSection id="AccountsTable">
+                <apex:pageBlockTable value="{!getRecord}" var="acc">
+                     <apex:column value="{!acc.Name}"/>
+                     <apex:column value="{!acc.Phone}"/>
+                 </apex:pageBlockTable> 
+             </apex:pageBlockSection>
+             
+        </apex:pageBlock>
+        <apex:panelGrid id="navigation" columns="2">
+        <apex:commandLink action="{!previous}" rendered="{!hasPrevious}">Previous</apex:commandLink>
+        <apex:commandLink action="{!next}" rendered="{!hasNext}" >Next</apex:commandLink>
+    </apex:panelGrid>
+    </apex:form>   
+</apex:page>

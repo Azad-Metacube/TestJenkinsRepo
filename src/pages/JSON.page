@@ -1,0 +1,23 @@
+<apex:page controller="ConvertToJSONString">
+    <apex:form >
+        <apex:sectionHeader title="JSON Converter" subtitle="Converting to JSON String"/>
+        <apex:pageBlock id="infoPage">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Convert To JSON" action="{!getJSONString}" reRender="JSONStringSection"/>
+                <apex:commandButton value="Reset" action="{!reset}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1" title="Input Details">
+                <apex:inputText label="First Name" value="{!FirstName}"/>
+                <apex:inputText label="Last Name" value="{!LastName}"/>
+                <apex:inputText label="Date Of Birth" value="{!DOB}"/>
+                <apex:inputText label="Email Id" value="{!EmailID}"/>
+                <apex:inputText label="Phone/Mobile No." value="{!ContactNumber}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:outputPanel id="JSONStringSection">
+            <apex:pageBlock rendered="{!(jsonString!=null)}" title="Your JSON String : ">
+                <apex:outputText >{!jsonString}</apex:outputText>
+            </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

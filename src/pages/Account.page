@@ -1,0 +1,42 @@
+<apex:page STandardController="Account" recordSetVar="accounts">
+    <apex:form >
+        <apex:pageBlock id="thepage">
+            <apex:actionRegion >
+                <apex:selectList value="{!pagesize}" size="1" >
+                    <apex:outputText >Records per page : </apex:outputText>
+                    <apex:selectOption itemValue="4"></apex:selectOption>
+                    <apex:selectOption itemValue="8"></apex:selectOption>
+                    <apex:actionSupport event="onchange" reRender="thepage,navigation"/>
+                </apex:selectList>
+                
+                <apex:outputText >BillingCity : </apex:outputText>    
+                    <apex:selectList value="{!pagesize}" size="1" >
+                    <apex:selectOption itemValue="Singapore"></apex:selectOption>
+                    <apex:selectOption itemValue="Burlington"></apex:selectOption>
+                    <apex:selectOption itemValue="Portland"> </apex:selectOption>
+                    <apex:selectOption itemValue="Paris"> </apex:selectOption>
+                    <apex:actionSupport event="onchange" reRender="thepage,navigation"/> 
+                                
+                </apex:selectList>   
+                <apex:outputLabel for="viewList" > View :</apex:outputLabel>
+                <apex:selectList id="viewList" size="1" value="{!filterId}">
+                <apex:actionSupport event="onchange" reRender="thepage,navigation"/>
+                    <apex:selectOptions value="{!listviewoptions}"></apex:selectOptions>
+                    <apex:actionStatus id="theStatus" startText="updating List...." stopText="Total result Size:{!resultSize}"></apex:actionStatus>    
+                </apex:selectList>          
+            </apex:actionRegion>
+            
+          
+               <apex:pageBlockTable value="{!accounts}" var="acc" id="accountstable">
+                   <apex:column value="{!acc.Name}"/>
+                   <apex:column value="{!acc.AccountNumber}"/> 
+                   <apex:column value="{!acc.AnnualRevenue}"/>     
+               </apex:pageBlockTable>
+           
+        </apex:pageBlock>
+    <apex:panelGrid id="navigation" columns="2">
+        <apex:commandLink action="{!previous}" reRender="hasPrevious">Previous</apex:commandLink>
+        <apex:commandLink action="{!next}" reRender="hasNext">Next</apex:commandLink>
+    </apex:panelGrid>
+  </apex:form>
+</apex:page>

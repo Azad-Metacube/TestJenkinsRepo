@@ -1,0 +1,39 @@
+<apex:page controller="SumOfOpportunityAmountReportController" sidebar="false">
+   <apex:sectionHeader subtitle="Report" title="Sum of Opportunity Amount per Account" />
+   <apex:pageBlock >
+      <apex:pageBlockTable value="{!accIds}" var="AccountId">
+      
+          <apex:column headerValue="Account Name">   
+              <apex:repeat value="{!nameOfAccountById[AccountId]}" var="NameOfAccount" >
+                  <apex:outputText value="{!NameOfAccount}"> </apex:outputText>
+              </apex:repeat>
+          </apex:column>
+          
+          <apex:column headerValue="Number of opportunity per Account">   
+              <apex:repeat value="{!numberOfOpportunitiesById[AccountId]}" var="NumberOfOpportunity" >
+                  <apex:outputText value="{!NumberOfOpportunity}"> </apex:outputText><br/>
+              </apex:repeat>
+          </apex:column>
+          
+          <apex:column headerValue="Opportunity Name">
+              <apex:repeat value="{!nameOfOpportunitiesById[AccountId]}" var="ListOfOpportunity"> 
+                  <apex:outputText value="{!ListOfOpportunity.Name}"> </apex:outputText><br/>
+              </apex:repeat>
+          </apex:column>    
+          
+          <apex:column headerValue="Amount per opportunity">   
+              <apex:repeat value="{!nameOfOpportunitiesById[AccountId]}" var="ListOfOpportunity" >
+                  <apex:outputText value="{!ListOfOpportunity.Amount}"> </apex:outputText><br/>
+              </apex:repeat>
+          </apex:column>
+          
+          <apex:column headerValue="Total Amount">   
+              <apex:repeat value="{!amountPerAccount[AccountId]}" var="TotalAccount" >
+                  <apex:outputText value="{!TotalAccount}"> </apex:outputText><br/>
+              </apex:repeat>
+          </apex:column>
+          
+          
+      </apex:pageBlockTable>
+   </apex:pageBlock>
+</apex:page>

@@ -1,0 +1,14 @@
+<apex:page standardController="Picklist_POC__c" extensions="PicklistPOCPageController">
+    <apex:form >
+         <apex:actionFunction name="actionMe" action="{!getChoice}" reRender="blockId" immediate="true">
+                    <apex:param name="meParam" value="" assignTo="{!selectedValue}"/>
+                </apex:actionFunction>
+         <apex:pageBlock id="blockId">
+            <apex:pageBlockSection columns="1" title="Picklist POC info">       
+                <apex:inputField value="{!Picklist_POC__c.Picklist_Value__c}" onchange="actionMe(this.value)" />
+                <apex:inputField value="{!Picklist_POC__c.Dependent_Value__c}" rendered="{!(flag1)}" required="{!isRequired}"/>
+                <apex:inputText value="{!Picklist_POC__c.Dependent_Value__c}" rendered="{!(!flag1)}" disabled="true"/>
+            </apex:pageBlockSection>    
+        </apex:pageBlock>
+    </apex:form> 
+</apex:page>

@@ -1,0 +1,9 @@
+<apex:page controller="MyTestPageController" >
+    <apex:form >
+        <apex:pageBlock title="studentDetail">
+            <apex:repeat value="{!fields}" var="f"><br/>
+                <apex:inputField label="{!f.label}" value="{!studentDetail[f.fieldPath]}" required="{!OR(f.required, f.dbrequired)}" />
+            </apex:repeat>
+        </apex:pageBlock>    
+    </apex:form>        
+</apex:page>

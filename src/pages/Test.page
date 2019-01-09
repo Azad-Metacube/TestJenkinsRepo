@@ -1,0 +1,29 @@
+<apex:page controller="TestController">
+    <script>
+    function javaScript(e) {
+        if(e=='Yes'){
+            document.getElementById('innerDiv').style.display = "inline";
+        }
+    }
+    </script>
+    <apex:form >
+        <apex:pageBlock mode="edit">
+            <apex:sectionHeader title="Test" subtitle="Test Page" />
+            <apex:actionFunction name="actionFunction1" action="{!callmethod}" reRender="HandleTextBox" oncomplete="javaScript('{!selectedOption}')">
+            </apex:actionFunction>
+            <apex:pageBlockSection columns="1" title="Info" >
+                <apex:selectList value="{!selectedOption}" size="1" onchange="actionFunction1()">
+                    <apex:selectOptions value="{!getSelectOption }">
+                    </apex:selectOptions>
+                </apex:selectList>
+                
+                <apex:outputPanel id="HandleTextBox">
+                    <div id="outerDiv" class="requiredInput">
+                        <div id="innerDiv" class="requiredBlock" style="display:none"></div> 
+                        <apex:inputText value="{!Name}" disabled="{!flag}"  />
+                    </div>     
+                </apex:outputPanel> 
+            </apex:pageBlockSection>
+        </apex:pageBlock> 
+    </apex:form>        
+</apex:page>

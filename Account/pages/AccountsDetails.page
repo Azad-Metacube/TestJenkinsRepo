@@ -1,0 +1,3 @@
+<apex:page controller="AZD.AccountsDetailsController" sidebar="false" showHeader="false">
+  Name : {!myaccount.Name} ###Id : {!myaccount.Id}
+</apex:page>

@@ -1,0 +1,62 @@
+<apex:page controller="Demo_MassEmailAccountPageController" sidebar="false" showheader="false">
+
+	<style>
+		.mainPageBlock{
+			color:Red;
+		}
+	</style>
+    <apex:OutputText value="Account and Related Contacts"/>
+    <apex:form>
+	    <apex:pageBlock>
+	        <apex:Repeat value="{!mapAccountContacts}" var="mapKey">
+	            <apex:pageBlockSection title="Account Details" columns="1" > 
+	            	<apex:outputText value="{!mapKey.name}" label="Account_Name" styleclass="mainPageBlock"/>
+	            		<apex:pageBlockSection title="Contact Details" columns="1"> 
+			            	<apex:PageBlockTable value="{!mapAccountContacts[mapKey]}" var="cont">
+	<!-- 		            	<apex:Column value="{!cont.conWrap.FirstName}" /> -->
+								<apex:column headerValue="Select">
+				            		<apex:inputCheckBox value="{!cont.selected}" />
+				            	</apex:column>
+				            	<apex:column headerValue="First Name">
+				            		<apex:inputField value="{!cont.conWrap.FirstName}" />
+				            	</apex:column>
+				            	<apex:Column headerValue="Last Name">
+				            		<apex:inputField value="{!cont.conWrap.LastName}" />
+				            	</apex:column>
+				            	<apex:Column headerValue="Emal">
+				            		<apex:inputField value="{!cont.conWrap.Email}" />
+				            	</apex:column>
+				            	<apex:Column headerValue="BirthDate">
+				            		<apex:inputField value="{!cont.conWrap.BirthDate}" />
+				            	</apex:column>
+	<!-- 		                    <apex:OutputText value="{!cont.LastName}" label="Last Name"> -->
+	<!-- 		                    </apex:OutputText> -->
+	<!-- 		                     <apex:OutputText value="{!cont.FirstName}" label="First Name"> -->
+	<!-- 		                    </apex:OutputText>     -->
+	<!-- 		                     <apex:OutputText value="{!cont.Birthdate}" label="Birth Date"> -->
+	<!-- 		                    </apex:OutputText>   -->
+	<!-- 		                    <apex:OutputText value="{!cont.Email}" label="Email"> -->
+	<!-- 		                    </apex:OutputText>    <hr/>          -->
+			                </apex:PageBlockTable>
+			             </apex:pageBlockSection>  
+	                </apex:pageBlockSection>
+	        </apex:Repeat>
+	       
+	<!--         <apex:PageBlockTable value="{!mapAccountContacts}" var="mapKey"> -->
+	<!-- 			<apex:Column headerValue="AccountName" value="{!mapKey.Name}" /> -->
+	<!-- 			<apex:Column> -->
+	<!-- 				<apex:repeat value="{!mapAccountContacts[mapKey]}" var="cont"> -->
+	<!-- 					{!cont.LastName}>      -->
+	<!-- 				</apex:repeat> -->
+	<!-- 			</apex:Column> -->
+	<!-- 		</apex:PageBlockTable>	 -->
+				<apex:pageBlockButtons location="top">
+                <apex:commandButton action="{!updateFields}" value="Save"/>
+				</apex:pageBlockButtons>
+	    </apex:pageBlock>
+<!-- 	    	<div align="center"> -->
+<!-- 	    		<apex:commandButton value="Save" /> -->
+<!-- 	    	</div> -->
+
+    </apex:form>
+</apex:page>

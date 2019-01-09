@@ -1,0 +1,77 @@
+<apex:page controller="ManageClassController" >
+    <apex:form id="form">    
+        <apex:pageBlock id="classes"  >      
+            <apex:pageBlockSection columns="1" title="Classes" > 
+                <apex:pageBlockTable value="{!classList}" var="cl" >
+                    <apex:column >
+                         <apex:commandLink value="edit" action="{!editclass}" reRender="opEditId">                    
+                         <apex:param name="classId" value="{!cl.Id}" assignTo="{!classId}"/></apex:commandLink> 
+                    </apex:column>
+                    
+                    <apex:column >
+                        <apex:commandLink value="delete" action="{!showPopup}" reRender="tstpopup ">
+                        <apex:param name="classId1" value="{!cl.Id}" assignTo="{!classId}"/></apex:commandLink>
+                    </apex:column>
+                    <apex:column value="{!cl.Name}"/>     
+                </apex:pageBlockTable>
+                 
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+        <apex:outputPanel id="opEditId">
+            <apex:pageBlock id="classDetail" rendered="{!(classId!=null)}">
+                <apex:pageBlockButtons >
+                    <apex:commandButton action="{!save}" value="save" />
+                <apex:commandButton action="{!cancel}" value="cancel" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1" title="edit class" >
+                <apex:inputText value="{!Name}" label="Name"/>
+                <apex:inputText value="{!DetailedDescription}" label="DetailedDescription"/>
+                <apex:outputText value="{!Board}" label="Board"/>
+                <apex:inputText value="{!fee}" label="fee" />  
+                <apex:inputText value="{!MaxSize}" label="MaxSize"/>            
+                <apex:outputText value="{!Contact}" label="Contact"/>   
+                <apex:outputText value="{!NumberOfStudent}" label="NumberOfStudent" />
+                <apex:inputText value="{!MyCount}" label="MyCount" />           
+            </apex:pageBlockSection>    
+        
+            </apex:pageBlock>
+        </apex:outputPanel>
+        <apex:outputPanel id="tstpopup">
+        <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayPopUp}"/>
+            <apex:outputPanel styleClass="custPopup" layout="block" rendered="{!displayPopUp}"><br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Are you sure<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton value="OK" action="{!deleteClass}" rerender="tstpopup,classes"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton value="Cancel" action="{!canceldeletion}" rerender="tstpopup,classes"/>
+            </apex:outputPanel>
+        </apex:outputPanel>  
+        
+    </apex:form> 
+    <style type="text/css">
+        .custPopup{
+            background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            width: 200px;
+            margin-left: -150px;
+            top:100px;
+        }
+        .popupBackground{
+            background-color:black;
+            opacity: 0.20;
+            filter: alpha(opacity = 20);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+        }
+
+   </style> 
+</apex:page>

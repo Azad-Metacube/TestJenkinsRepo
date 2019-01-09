@@ -1,0 +1,125 @@
+<apex:page standardController="Account" extensions="AccountDetailController">
+
+    <script type="text/javascript">
+        function confirmDelete() {          
+          return confirm('Are you sure you want to delete?');
+        }  
+    </script>
+    
+    <style>
+        .editlink {
+            text-decoration:none;
+        }
+        
+        .editlink:hover {
+            text-decoration:underline;
+        }
+    </style>
+    
+    <apex:pageMessages id="msg"></apex:pageMessages>
+    <apex:form >
+        <apex:sectionHeader title="Account" subtitle="{!account.Name}"/>
+        <apex:pageBlock title="Account Detail" mode="detail">
+        
+            <!-- <apex:outputLabel value="Account Detail" style="font-weight:bold"></apex:outputLabel>-->
+            <apex:pageblockButtons >
+            <apex:commandButton value="Edit" action="{!editAccount}" style="margin-left:0px" reRender="msg"/>
+            <apex:commandButton value="Delete" action="{!deleteAccount}" onClick="if (!confirmDelete()) return false;" reRender="msg"/>
+            </apex:pageblockButtons>
+            
+            <apex:pageBlockSection >
+                <apex:outputField value="{!account.OwnerId}" />
+                <apex:outputField value="{!account.Rating}" />
+                <apex:outputField value="{!account.Name}"/>
+                <apex:outputField value="{!account.Phone}"/>
+                <apex:outputField value="{!account.ParentId }"/>
+                <apex:outputField value="{!account.Fax}" />
+                <apex:outputField value="{!account.AccountNumber}"/>
+                <apex:outputField value="{!account.Website}"/>
+                <apex:outputField value="{!account.TickerSymbol}"/>
+                <apex:outputField value="{!account.Type}"/>
+                <apex:outputField value="{!account.Ownership}"/>
+                <apex:outputField value="{!account.Industry}"/>
+                <apex:outputField value="{!account.NumberOfEmployees}"/>
+                <apex:outputField value="{!account.AnnualRevenue}"/>
+                <apex:outputField value="{!account.Sic}"/>
+                <apex:outputField value="{!account.ContactIDs__c}"/>
+                <apex:outputField value="{!account.OwnerId}"/>
+                <apex:outputText value="{!account.BillingStreet}{!account.BillingCity }{!account.BillingState }{!account.BillingPostalCode }{!account.BillingCountry}" label="Billing Adress"></apex:outputText>
+                <apex:outputText value="{!account.ShippingStreet}{!account.ShippingCity }{!account.ShippingState }{!account.ShippingPostalCode }{!account.ShippingCountry}" label="Shipping Adress"></apex:outputText>
+                <apex:outputField value="{!account.CustomerPriority__c}"/>
+                <apex:outputField value="{!account.SLA__c}"/>
+                <apex:outputField value="{!account.SLAExpirationDate__c}"/>
+                <apex:outputField value="{!account.SLASerialNumber__c}"/>
+                <apex:outputField value="{!account.NumberofLocations__c}"/>
+                <apex:outputField value="{!account.UpsellOpportunity__c}"/>
+                
+                <apex:outputText label="Created By">
+                    <apex:commandLink value="{!account.CreatedBy.Name}" action="{!creatorProfileLink}"/>
+                    {!account.CreatedDate}
+                </apex:outputText>
+                
+                <apex:outputText label="LastModified By">
+                    <apex:commandLink value="{!account.LastModifiedBy.Name}" action="{!modifierProfileLink}"/>
+                    {!account.LastModifiedDate}
+                </apex:outputText>   
+            </apex:pageBlockSection>
+            
+            
+            
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Teachers" helpTitle="Teachers Help" helpUrl="https://help.salesforce.com/htviewhelpdoc?err=1&id=contacts_edit.htm&siteLang=en_US">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="New Teacher" action="{!newContact}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!contactList}" var="c">
+            
+                <apex:column headerValue="action">
+                    <apex:commandLink value="Edit" styleClass="editlink" id="editlink" action="{!editContactLink}" style="color:#068ED2;" reRender="msg" >
+                         <apex:param name="contactId1" value="{!c.Id}" assignTo="{!contactId}"/>
+                    </apex:commandLink>&nbsp; | &nbsp;
+                    <apex:commandLink value="Del" styleClass="editlink" action="{!deleteContact}" onClick="if (!confirmDelete()) return false;" reRender="msg" style="color:#068ED2" >
+                        <apex:param name="contactId2" value="{!c.Id}" assignTo="{!contactId}"/>
+                    </apex:commandLink>
+                </apex:column>
+                
+                <apex:column headerValue="Teacher Name">
+                    <apex:commandLink value="{!c.Name}" action="{!contactLink}">
+                        <apex:param name="contactId" value="{!c.Id}" assignTo="{!contactId}"/>
+                    </apex:commandLink>
+                </apex:column>
+                
+                <apex:column value="{!c.Email }"/>
+                <apex:column value="{!c.Phone}"/>
+            </apex:pageBlockTable>      
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Opportunities" helpTitle="Opportunities Help" helpUrl="https://help.salesforce.com/htviewhelpdoc?err=1&id=opp_edit.htm&siteLang=en_US">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="New Opportunity" action="{!newOpportunity}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!oList}" var="o">
+            
+                <apex:column headerValue="action">
+                    <apex:commandLink value="Edit" styleClass="editlink" action="{!editOpportunityLink}" style="color:#068ED2" reRender="msg">
+                         <apex:param name="opportunityId1" value="{!o.Id}" assignTo="{!opportunityId}"/>
+                    </apex:commandLink> &nbsp; | &nbsp;
+                    <apex:commandLink value="Del" styleClass="editlink" action="{!deleteOpportunity}" onClick="if (!confirmDelete()) return false;" reRender="msg" style="color:#068ED2">
+                        <apex:param name="opportunityId2" value="{!o.Id}" assignTo="{!opportunityId}"/>
+                    </apex:commandLink>
+                </apex:column>
+                
+                <apex:column headerValue="Opportunity Name">
+                    <apex:commandLink value="{!o.Name}" action="{!opportunityLink}">
+                        <apex:param name="opportunityId2" value="{!o.Id}" assignTo="{!opportunityId}"/>
+                    </apex:commandLink>
+                </apex:column>
+                
+                <apex:column value="{!o.StageName }"/>
+                <apex:column value="{!o.Amount}"/>
+                <apex:column value="{!o.CloseDate}"/>
+            </apex:pageBlockTable>      
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

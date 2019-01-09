@@ -1,0 +1,21 @@
+<apex:page controller="customLookupController">
+<apex:form >
+  <apex:pageBlock >
+    
+          <apex:pageBlockButtons location="bottom">
+              <apex:commandButton value="Save" action="{!save}"/>
+              <apex:commandButton value="Clear" action="{!clear}"/>
+              <apex:commandButton value="Cancel" action="{!cancel}"/>
+          </apex:pageBlockButtons>
+     
+          <apex:pageBlockSection >        
+             
+                  <apex:selectRadio value="{!selectedContact}" layout="pageDirection"> 
+                      <apex:selectOptions value="{!teachers}"></apex:selectOptions>
+                  </apex:selectRadio> 
+            <apex:outputText value="{!selectedContact}"> </apex:outputText>
+         
+      </apex:pageBlockSection>
+  </apex:pageBlock>
+  </apex:form>
+</apex:page>

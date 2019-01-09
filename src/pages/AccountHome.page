@@ -1,0 +1,110 @@
+<apex:page standardController="Account" extensions="AccountHomeController" >
+    <apex:pageMessages id="msg"/>
+    <apex:form id="viewform">
+        <apex:sectionHeader title="Account" subtitle="Home"/>
+        <apex:outputLabel >View:</apex:outputLabel>
+        
+        <apex:selectList size="1" value="{!viewMode}">
+            <apex:selectOptions value="{!viewModeOptions}"></apex:selectOptions>
+            <apex:actionSupport event="onchange" reRender="ViewAccount" action="{!viewAccount}"/>
+        </apex:selectList> 
+        
+        <apex:commandButton value="Go!" action="{!viewAccount}"/>
+        <apex:commandLink value="Edit" action="{!editViewLink}"/>|
+        <apex:commandLink value="Create New View" action="{!newViewLink}"/>  
+     
+        <apex:outputPanel id="AccountPanel" rendered="{!flag}"> 
+            <apex:pageBlock >
+                <apex:outputLabel value="Recent Accounts" style="font-weight:bold"></apex:outputLabel>
+                <apex:commandButton value="New" action="{!createNewAccount}" style="margin-left:250px"/>
+            
+                
+                <apex:selectList size="1" value="{!selectedMode}" style="float:right">
+                    <apex:selectOptions value="{!selectMode}"></apex:selectOptions>
+                    <apex:actionSupport event="onchange" reRender="showAccounts" action="{!selectMode}"/>
+                </apex:selectList>
+                
+                <apex:actionFunction name="mode" action="{!selectMode}" reRender="showAccounts"/>  
+                <apex:outputPanel id="showAccounts">
+                    <apex:pageBlockTable value="{!accounts}" var="acc">
+                        <apex:column >
+                            <apex:commandLink value="{!acc.Name}" action="{!detailLink}">
+                                <apex:param value="{!acc.Id}" name="accountId" assignTo="{!accountId}"/>
+                            </apex:commandLink>
+                        </apex:column> 
+                        <apex:column value="{!acc.BillingCity}"/>
+                        <apex:column value="{!acc.Phone }"/>
+                    </apex:pageBlockTable>
+                </apex:outputPanel>
+            </apex:pageBlock>       
+        </apex:outputPanel>                                
+        <apex:outputPanel id="ViewAccount" rendered="{!view}">
+            <apex:pageBlock >
+                <apex:commandButton value="New Account" action="{!createNewAccount}" />
+                <apex:pageBlockTable value="{!accountViewList}" var="accView">
+                    <apex:column >
+                        <apex:commandLink value="Edit" >
+                            <apex:param name="accountID1" value="{!accView.Id}" assignTo="{!accountId}"/>
+                        </apex:commandLink>
+                    </apex:column>
+                    <apex:column >|</apex:column>
+                    <apex:column >
+                        <apex:commandLink value="Del" action="{!showPopup}" reRender="tstpopup ">
+                            <apex:param name="accountID2" value="{!accView.Id}" assignTo="{!accountId}"/>
+                        </apex:commandLink>
+                    </apex:column>
+                    <apex:column >
+                        <apex:commandLink value="{!accView.Name}" action="{!detailLink}">
+                            <apex:param value="{!accView.Id}" name="accountId3" assignTo="{!accountId}"/>
+                        </apex:commandLink>
+                    </apex:column> 
+                    <apex:column value="{!accView.Site}"/>
+                    <apex:column value="{!accView.BillingState}"/>
+                    <apex:column value="{!accView.Phone}"/>
+                    <apex:column value="{!accView.Type}"/>
+                    <apex:column value="{!accView.Owner.Alias}"/>
+                </apex:pageBlockTable>
+                <apex:pageBlockButtons >
+                    <apex:commandLink value="Previous" rendered="{!hasPrevious}"/>
+                    <apex:commandLink value="Next" rendered="{!hasNext}"/>
+                </apex:pageBlockButtons>
+            </apex:pageBlock>    
+        </apex:outputPanel>
+        <apex:outputPanel id="tstpopup">
+        <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayPopUp}"/>
+            <apex:outputPanel styleClass="custPopup" layout="block" rendered="{!displayPopUp}"><br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Are you sure<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton value="OK" action="{!deleteClass}" rerender="tstpopup,msg"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton value="Cancel" action="{!canceldeletion}" rerender="tstpopup,ViewAccount"/>
+                <apex:actionSupport event="onclick" action="{!viewAccount}" reRender="ViewAccount"/>
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </apex:form>
+     <style type="text/css">
+        .custPopup{
+            background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            width: 200px;
+            margin-left: -150px;
+            top:100px;
+        }
+        .popupBackground{
+            background-color:black;
+            opacity: 0.20;
+            filter: alpha(opacity = 20);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+        }
+
+   </style>     
+</apex:page>

@@ -1,0 +1,18 @@
+<apex:page controller="StudentDetailUsingComboController">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+                <apex:selectList value="{!selectedStudent}" size="1">
+                    <apex:selectOptions value="{!selectionList}"></apex:selectOptions>
+                    <apex:actionSupport event="onchange" reRender="ShowDetail"/>
+                </apex:selectList>
+            </apex:pageBlockSection>
+            <apex:outputPanel id="ShowDetail">
+                <apex:pageBlockTable value="{!getStudentDetail}" var="s" >
+                    <apex:column value="{!s.First_Name__c}"/>
+                    <apex:column value="{!s.Last_Name__c}"/>
+                </apex:pageBlockTable>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

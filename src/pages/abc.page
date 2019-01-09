@@ -1,0 +1,18 @@
+<apex:page controller="TestPageController">
+
+  <script> 
+      function callMe(e){
+            var val=e.value;
+            var chars = val.length;
+            if(chars > 5){
+               e.value =val.substring(0,5); 
+           }
+       }
+  </script> 
+  
+  <apex:pageMessages id="msg" /> 
+  <apex:form id="theForm">
+      <apex:inputTextarea value="{!userInput}" id="inputId" onkeyup="callMe(this)" />
+  </apex:form>
+  
+</apex:page>

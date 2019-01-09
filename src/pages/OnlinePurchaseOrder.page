@@ -1,0 +1,92 @@
+<apex:page standardController="Purchase_Order__c" extensions="PurchaseController" docType="html-5.0">
+    <style>
+    .editLink{
+        text-decoration:none;
+    }
+    .editLink:hover{
+        text-decoration:underline;
+    }
+    </style>
+    <script>
+        function showButton(bId) {
+            document.getElementById(bId).style.display = 'inline';
+        }
+    </script>
+    <apex:pagemessages id="msg"></apex:pagemessages>
+    <apex:form id="form" rendered="{!(isAlreadyOrdered != true )}">
+        <apex:sectionHeader title="Order" subtitle="New Order" />  
+        <apex:pageBlock >
+            <apex:pageBlockSection title="Order Info" columns="2" id="UserCategory" >
+                <apex:actionRegion ><b>
+                     <apex:outputLabel value="User" /></b>
+                     <apex:selectList value="{!SelectedUserOption}" size="1" >
+                         <apex:selectOptions value="{!selectionUserList}"/>
+                         <apex:actionSupport event="onchange" reRender="UserDetail"  action="{!defineUserDetail}" />
+                    </apex:selectList>
+                </apex:actionRegion>
+                <apex:actionRegion ><b>
+                    <apex:outputLabel value="Category" /></b>
+                    <apex:selectList value="{!SelectedOption}" size="1">
+                        <apex:selectOptions value="{!selectionList}"/>
+                        <apex:actionSupport event="onchange" reRender="AvailableItems,SelectedItems"/>
+                    </apex:selectList>
+                </apex:actionRegion>
+            </apex:pageBlockSection>
+            <apex:outputPanel id="UserDetail" >
+                <apex:pageBlockSection title="UserDetail" rendered="{!(userDetail != null && userDetail.Size >0)}"  columns="1"  >
+                    <apex:pageBlockTable value="{!userDetail}" var="user">
+                        <apex:column value="{!user.FirstName}"/>
+                        <apex:column value="{!user.LastName}"/>
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+            
+            <apex:outputPanel id="AvailableItems">
+                <apex:pageBlockSection title="Available Items" columns="1" rendered="{!SelectedUserOption != null && SelectedUserOption != '--Select--'}"> 
+                    <apex:pageBlockTable value="{!productList}" var="p" title="Available Items ">
+                        <apex:column >
+                        <apex:commandLink value="add" action="{!addItem}" reRender="SelectedItems,msg" styleClass="editLink" style="color:#068ED2;">
+                            <apex:param name="productId" value="{!p.Id}" assignTo="{!productId}"/>
+                        </apex:commandLink>
+                        </apex:column>
+                        <apex:column value="{!p.Product_Name__c}" />
+                        <apex:column value="{!p.Product_Code__c}" />
+                        <apex:column value="{!p.Product_Description__c}" />
+                        <apex:column value="{!p.Unit_Price__c}" />
+                    </apex:pageBlockTable>    
+              </apex:pageBlockSection> 
+              </apex:outputPanel> 
+               
+        </apex:pageBlock>
+        
+        <apex:outputPanel id="SelectedItems" >
+            <apex:pageBlock rendered="{!(WrapperPurchaseOrderLineItemClassList!=null && WrapperPurchaseOrderLineItemClassList.size > 0 )}" >
+                
+                <apex:pageBlockSection title="Selected Item" columns="1" rendered="{!SelectedUserOption != null && SelectedUserOption != '--Select--'}">
+                    <apex:pageBlockTable value="{!WrapperPurchaseOrderLineItemClassList}" var="item" >   
+                        <apex:column headerValue="action">
+                            <apex:commandLink value="remove" action="{!removeProductOrder}" styleClass="editLink" style="color:#068ED2;">
+                                <apex:param assignTo="{!productId}" name="productId" value="{!item.p.Product_ID__c}"/>
+                            </apex:commandLink> 
+                        </apex:column>
+                        <apex:column value="{!item.p.Product_Name__c}"/>
+                        <apex:column value="{!item.p.Product_ID__c}" />
+                        <apex:column value="{!item.p.Unit_Price__c}" />
+                        <apex:column >
+                            <apex:outputField value="{!item.p.Quantity__c}" >
+                                <apex:inlineEditSupport >                                      
+                                 </apex:inlineEditSupport>
+                            </apex:outputField>                                      
+                        </apex:column>     
+                       
+                    </apex:pageBlockTable>
+                    <apex:outputLabel >
+                        <apex:commandButton value="Save" action="{!saveOrder}"/>
+                        <apex:commandButton value="Order" action="{!OrderDetailRedirect}" />
+                    </apex:outputLabel>
+                </apex:pageBlockSection>
+            </apex:pageBlock> 
+       </apex:outputPanel>
+    </apex:form>
+    
+</apex:page>
